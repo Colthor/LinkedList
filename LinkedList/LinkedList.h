@@ -16,8 +16,9 @@ public:
 	LinkedList() = default;
 	LinkedList(const LinkedList<T>& other) { *this = other; }
 	LinkedList(LinkedList<T>&& other) { *this = other; }
-	~LinkedList() { empty_list(); }
+	LinkedList(const std::initializer_list<T>& il);
 
+	~LinkedList() { empty_list(); }
 
 	void push_front(T in);
 	T pop_front();
@@ -28,6 +29,8 @@ public:
 
 	ListIterator<T> begin() { return ListIterator<T>(this->m_first.get()); };
 	ListIterator<T> end() { return ListIterator<T>(nullptr); };
+	ListIterator<T> rbegin() { return ListIterator<T>(this->m_last); };
+	ListIterator<T> rend() { return ListIterator<T>(nullptr); };
 
 	inline bool operator==(const LinkedList<T>& other)
 	{
@@ -93,6 +96,12 @@ private:
 	template<class T>
 	class ListIterator
 	{
+		using iterator_category = std::bidirectional_iterator_tag;
+		using difference_type = std::ptrdiff_t;
+		using value_type = T;
+		using pointer = T*;
+		using reference = T&;
+
 	public:
 		ListIterator() = default;
 		ListIterator(LinkedList::Node<T>* start) :current(start) {}
@@ -146,6 +155,14 @@ private:
 
 
 
+template <class T>
+LinkedList<T>::LinkedList(const std::initializer_list<T>& il)
+{
+	for (auto i : il)
+	{
+		push_back(i);
+	}
+}
 
 
 template <class T>

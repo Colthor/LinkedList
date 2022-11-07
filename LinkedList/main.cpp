@@ -186,7 +186,46 @@ void testRangeFor()
         ++t;
     }
 
+}
 
+void testInitialiserList()
+{
+    LinkedList<int> L1{1,2,3,4}, L2;
+
+    L2.push_back(1);
+    L2.push_back(2);
+    L2.push_back(3);
+    L2.push_back(4);
+    assert(L1 == L2);
+}
+
+void testReverseIterator()
+{
+    LinkedList<int> L1{ 1,2,3,4 };
+    int i = 4;
+
+    for (auto it = L1.rbegin(); it != L1.rend(); --it)
+    {
+        assert(i == *it);
+        --i;
+    }
+
+}
+
+void testMutableIterator()
+{
+    LinkedList<int> l{ 1,2,3,4 };
+    for (auto& i : l)
+    {
+        i *= 2;
+    }
+
+    int t = 1;
+    for (auto& i : l)
+    {
+        assert(i == 2*t);
+        ++t;
+    }
 }
 
 int main()
@@ -200,6 +239,9 @@ int main()
     testListMove();
     testIterator();
     testRangeFor();
+    testInitialiserList();
+    testReverseIterator();
+    testMutableIterator();
 
     std::cout << "All tests done." << std::endl;
 }
